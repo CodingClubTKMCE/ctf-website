@@ -1,212 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CTF Terminal</title>
   <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background: #1e1e1e;
-    font-family: 'Courier New', monospace;
-    color: #d4d4d4;
-    height: 100vh;
-    overflow: hidden;
-  }
+    body {
+      background: #1e1e1e;
+      font-family: 'Courier New', monospace;
+      color: #d4d4d4;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  .terminal-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-  }
+    .terminal-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+    }
 
-  /* HEADER */
-  .terminal-header {
-    background: #2d2d2d;
-    padding: 8px 14px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 6px 6px 0 0;
-  }
+    /* BODY */
+    .terminal-body {
+      background: #1e1e1e;
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+    }
 
-  .terminal-button {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-  }
+    .terminal-output {
+      margin-bottom: 18px;
+    }
 
-  .btn-red { background: #ff5f56; }
-  .btn-yellow { background: #ffbd2e; }
-  .btn-green { background: #27c93f; }
+    .output-line {
+      margin: 6px 0;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
 
-  .terminal-title {
-    margin-left: 12px;
-    color: #9cdcfe;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
+    /* TEXT COLORS */
+    .prompt {
+      color: #4fc1ff;
+      font-weight: bold;
+    }
 
-  /* BODY */
-  .terminal-body {
-    background: #1e1e1e;
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    border: 1px solid #333;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-  }
+    .command {
+      color: #9cdcfe;
+    }
 
-  .terminal-output {
-    margin-bottom: 18px;
-  }
+    .success {
+      color: #6a9955;
+    }
 
-  .output-line {
-    margin: 6px 0;
-    line-height: 1.5;
-    white-space: pre-wrap;
-  }
+    .error {
+      color: #f44747;
+    }
 
-  /* TEXT COLORS */
-  .prompt {
-    color: #4fc1ff;
-    font-weight: bold;
-  }
+    .info {
+      color: #dcdcaa;
+    }
 
-  .command {
-    color: #9cdcfe;
-  }
+    .question {
+      color: #c586c0;
+      margin: 12px 0;
+      font-weight: normal;
+    }
 
-  .success {
-    color: #6a9955;
-  }
+    .story {
+      color: #b5cea8;
+      font-style: italic;
+      margin: 10px 0;
+    }
 
-  .error {
-    color: #f44747;
-  }
+    .link {
+      color: #4ec9b0;
+      text-decoration: none;
+    }
 
-  .info {
-    color: #dcdcaa;
-  }
+    .link:hover {
+      text-decoration: underline;
+    }
 
-  .question {
-    color: #c586c0;
-    margin: 12px 0;
-    font-weight: normal;
-  }
+    /* INPUT */
+    .input-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .story {
-    color: #b5cea8;
-    font-style: italic;
-    margin: 10px 0;
-  }
+    .hidden-flag {
+      display: none;
+    }
 
-  .link {
-    color: #4ec9b0;
-    text-decoration: none;
-  }
+    #terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #d4d4d4;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      outline: none;
+      caret-color: #dcdcaa;
+    }
 
-  .link:hover {
-    text-decoration: underline;
-  }
+    /* ASCII */
+    .ascii-art {
+      color: #4fc1ff;
+      font-size: 12px;
+      line-height: 1.3;
+      white-space: pre;
+    }
 
-  /* INPUT */
-  .input-line {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    /* TABLE (LEADERBOARD) */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
 
-  .hidden-flag {
-    display: none;
-  }
+    .table th {
+      color: #4fc1ff;
+      text-align: left;
+      padding: 6px 8px;
+      border-bottom: 1px solid #333;
+    }
 
-  #terminal-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #d4d4d4;
-    font-family: 'Courier New', monospace;
-    font-size: 15px;
-    outline: none;
-    caret-color: #dcdcaa;
-  }
+    .table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #2a2a2a;
+    }
 
-  /* ASCII */
-  .ascii-art {
-    color: #4fc1ff;
-    font-size: 12px;
-    line-height: 1.3;
-    white-space: pre;
-  }
+    .table tr:hover {
+      background: #252526;
+    }
 
-  /* TABLE (LEADERBOARD) */
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-    font-size: 14px;
-  }
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
 
-  .table th {
-    color: #4fc1ff;
-    text-align: left;
-    padding: 6px 8px;
-    border-bottom: 1px solid #333;
-  }
+    ::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
 
-  .table td {
-    padding: 6px 8px;
-    border-bottom: 1px solid #2a2a2a;
-  }
+    ::-webkit-scrollbar-thumb {
+      background: #3c3c3c;
+      border-radius: 3px;
+    }
 
-  .table tr:hover {
-    background: #252526;
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #1e1e1e;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #3c3c3c;
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
-</style>
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
 
 </head>
+
 <body>
   <div class="terminal-container">
-    <div class="terminal-header">
-      <div class="terminal-button btn-red"></div>
-      <div class="terminal-button btn-yellow"></div>
-      <div class="terminal-button btn-green"></div>
-      <span class="terminal-title">CTF Terminal</span>
-    </div>
     <div class="terminal-body" id="terminal-body">
       <div class="terminal-output" id="output"></div>
       <div class="input-line">
-        <span class="input-prompt" id="prompt-text">root@ctf:~$</span>
+        <span class="prompt" id="prompt-text">root@ctf:~$</span>
         <span class="hidden-flag">FLAG{h1dd3n_1n_html}</span>
         <input type="text" id="terminal-input" autofocus />
       </div>
@@ -216,9 +180,15 @@
   <script>
     const API_BASE = 'https://ctf-backend-ten.vercel.app/api';
     const output = document.getElementById('output');
+    /** @type {HTMLInputElement} */
     const input = document.getElementById('terminal-input');
     const promptText = document.getElementById('prompt-text');
-    
+
+    // input.focus();
+    document.addEventListener("click", (e) => {
+      input.focus();
+    })
+
     let token = null;
     let isLoggedIn = false;
     let currentUser = null;
@@ -226,6 +196,62 @@
     let inputCallback = null;
     let commandHistory = [];
     let historyIndex = -1;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      showBanner();
+
+      const storedToken = localStorage.getItem("token");
+      if (typeof storedToken === "string" && storedToken.length > 0) {
+        addOutput("Authenticating...");
+
+        input.disabled = true;
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/details`, {
+            headers: {
+              "Authorization": "Bearer " + storedToken
+            }
+          });
+
+          const data = await response.json();
+          if (response.ok && data.success) {
+            token = storedToken;
+            isLoggedIn = true;
+            currentUser = data.user;
+            addOutput(`<span class="success">Logged in as <b>${data.user.emailID}</b></span>`);
+
+            // preserved command history if any
+            const storedCommandHistory = localStorage.getItem("cmd-history");
+            if (typeof storedCommandHistory == "string" && storedCommandHistory.length >= 2) {
+              try {
+                const parsed = JSON.parse(storedCommandHistory);
+                if (Array.isArray(parsed)) {
+                  commandHistory = parsed.filter((cmd) => typeof cmd === "string" && cmd.length > 0);
+                  historyIndex = commandHistory.length;
+                }
+              } catch {
+                // do nothing, just keep it empty
+              }
+            }
+          } else {
+            throw new Error("shit")
+          }
+        } catch {
+          token = null;
+          isLoggedIn = false;
+          currentUser = null;
+          localStorage.removeItem("token");
+          addOutput("<span class='error'>Something went wrong while authenticating :(</span>")
+          addOutput('Type <span class="command">\'login\'</span> to authenticate\n', 'info');
+        } finally {
+          input.disabled = false;
+          input.focus();
+        }
+      } else {
+        localStorage.removeItem("token");
+        addOutput('Type <span class="command">\'login\'</span> to begin\n', 'info');
+      }
+    })
 
     const commands = {
       help: 'Show available commands and their descriptions',
@@ -269,7 +295,6 @@
     function showBanner() {
       addOutput(`<pre class="ascii-art">${banner}</pre>`);
       addOutput('Welcome to CTF Terminal!', 'info');
-      addOutput('Type <span class="command">\'login\'</span> to begin\n', 'info');
     }
 
     function showHelp() {
@@ -295,8 +320,9 @@
 
       input.type = 'text';
       updatePrompt('root@ctf:~$');
-      
+
       addOutput('Press Enter to submit', 'info');
+      input.disabled = true;
       addOutput('Validating credentials...\n', 'info');
 
       try {
@@ -309,19 +335,23 @@
         const data = await res.json();
 
         if (data.success) {
+          localStorage.setItem("token", data.token);
           token = data.token;
           isLoggedIn = true;
           currentUser = data.user;
           addOutput(`<span class="success">✓ AUTHENTICATED</span>`, 'success');
-          addOutput(`Type <span class="command">"start"</span> to begin the CTF challenge`, 'info');
-          addOutput(`Type <span class="command">"leaderboard"</span> to view rankings\n`, 'info');
-        addOutput(`Type <span class="command">"leaderboard"</span> to view rankings\n`, 'info');
+          // addOutput(`Type <span class="command">"start"</span> to begin the CTF challenge`, 'info');
+          // addOutput(`Type <span class="command">"leaderboard"</span> to view rankings\n`, 'info');
+          addOutput(`Type <span class="command">"help"</span> to view available commands\n`, 'info');
 
         } else {
           addOutput(`<span class="error">✗ ${data.message}</span>\n`, 'error');
         }
       } catch (err) {
         addOutput(`<span class="error">✗ Login failed: ${err.message}</span>\n`, 'error');
+      } finally {
+        input.disabled = false;
+        input.focus();
       }
     }
 
@@ -346,7 +376,7 @@
           } else {
             addOutput('Starting CTF challenge...\n', 'info');
             addOutput(`<span class="info">[Question ${data.level}]</span>`, 'info');
-            
+
             if (data.story) {
               addOutput(`<div class="story">${data.story}</div>`);
             }
@@ -356,11 +386,11 @@
             }
 
             if (data.link) {
-              addOutput(`<div>📎 Download: <a href="${data.link}" target="_blank" class="link">${data.link}</a></div>`);
+              addOutput(`<div>Download: <a href="${data.link}" target="_blank" class="link">{Click Here}</a></div>`);
             }
 
             if (data.isFinalStory) {
-              addOutput(`\n<span class="success">🎊 Congratulations! You've completed all challenges!</span>`, 'success');
+              addOutput(`\n<span class="success"> Congratulations! You've completed all challenges!</span>`, 'success');
               addOutput(`Time taken: ${formatTime(data.startTime, data.endTime)}\n`, 'info');
             } else {
               addOutput('');
@@ -405,7 +435,7 @@
 
         if (data.success) {
           addOutput(`<span class="success">✓ ${data.message}</span>\n`, 'success');
-          
+
           if (!data.completed && !data.isLastFlag) {
             setTimeout(() => startChallenge(), 500);
           } else if (data.isLastFlag) {
@@ -426,7 +456,7 @@
 
         if (data.success) {
           addOutput('\n<span class="info">═══ CTF Leaderboard ═══</span>', 'info');
-          
+
           if (data.data.length === 0) {
             addOutput('No participants yet.\n', 'info');
             return;
@@ -434,7 +464,7 @@
 
           const table = document.createElement('table');
           table.className = 'table';
-          
+
           const thead = `
             <thead>
               <tr>
@@ -450,10 +480,10 @@
 
           let tbody = '<tbody>';
           data.data.forEach(user => {
-            const time = user.timeTakenFormatted 
+            const time = user.timeTakenFormatted
               ? `${String(user.timeTakenFormatted.hours).padStart(2, '0')}:${String(user.timeTakenFormatted.minutes).padStart(2, '0')}:${String(user.timeTakenFormatted.seconds).padStart(2, '0')}`
               : 'N/A';
-            
+
             tbody += `
               <tr>
                 <td>${user.rank}</td>
@@ -468,7 +498,7 @@
           tbody += '</tbody>';
 
           table.innerHTML = thead + tbody;
-          
+
           const wrapper = document.createElement('div');
           wrapper.appendChild(table);
           output.appendChild(wrapper);
@@ -506,7 +536,7 @@
 
     async function handleCommand(cmd) {
       const [command, ...args] = cmd.trim().split(' ');
-      
+
       addOutput(`<span class="prompt">root@ctf:~$</span> <span class="command">${cmd}</span>`);
 
       // Add to command history
@@ -514,6 +544,8 @@
         commandHistory.push(cmd);
       }
       historyIndex = commandHistory.length;
+
+      localStorage.setItem("cmd-history", JSON.stringify(commandHistory.slice(-20)));
 
       switch (command.toLowerCase()) {
         case 'help':
@@ -542,6 +574,7 @@
           break;
         case 'exit':
           if (isLoggedIn) {
+            localStorage.removeItem("token");
             token = null;
             isLoggedIn = false;
             currentUser = null;
@@ -578,7 +611,7 @@
       } else if (e.key === 'Enter') {
         const cmd = input.value;
         input.value = '';
-        
+
         if (awaitingInput && inputCallback) {
           awaitingInput = false;
           const callback = inputCallback;
@@ -589,9 +622,7 @@
         }
       }
     });
-
-    // Initialize
-    showBanner();
   </script>
 </body>
+
 </html>
