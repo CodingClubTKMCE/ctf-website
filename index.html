@@ -185,9 +185,20 @@
     const promptText = document.getElementById('prompt-text');
 
     // input.focus();
+    // document.addEventListener("click", (e) => {
+    //   input.focus();
+    // })
     document.addEventListener("click", (e) => {
+      const selection = window.getSelection();
+
+      // If user is selecting text, do nothing
+      if (selection && selection.toString().length > 0) return;
+
+      // Don't steal focus if clicking on selectable text
+      if (e.target.closest(".terminal-output")) return;
+
       input.focus();
-    })
+    });
 
     let token = null;
     let isLoggedIn = false;
