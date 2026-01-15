@@ -560,7 +560,7 @@ async function handleCommand(cmd) {
 			break;
 		case "about":
 			addOutput("<b>BitBlitz OS v1.729</b>", "info");
-			addOutput("Credits: Claude, ChatGPT, Alan Saji, Swassy, <a href='https://github.com/aswan-a' target='_blank'>Aswan</a> and <a href='https://github.com/dcdunkan' target='_blank'>Dunks</a>!");
+			addOutput("Credits: Claude, ChatGPT, Alan Saji, Swassy, <a class='link' href='https://github.com/aswan-a' target='_blank'>Aswan</a> and <a class='link' href='https://github.com/dcdunkan' target='_blank'>Dunks</a>!");
 			break;
 		default:
 			addOutput(`<span class="error">Command not found: ${command}</span>`, "error");
