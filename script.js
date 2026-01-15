@@ -200,6 +200,7 @@ async function handleLogin() {
 			token = data.token;
 			isLoggedIn = true;
 			currentUser = data.user;
+			userProgress = data.ctfProgress;
 			addOutput(`<span class="success">✓ AUTHENTICATED</span>`, "success");
 			// addOutput(`Type <span class="command">"start"</span> to begin the CTF challenge`, 'info');
 			// addOutput(`Type <span class="command">"leaderboard"</span> to view rankings\n`, 'info');
