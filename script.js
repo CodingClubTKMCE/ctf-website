@@ -8,15 +8,15 @@ const promptText = document.getElementById("prompt-text");
 const commands = {
 	help: "Show available commands and their descriptions",
 	login: "Login with your Coding Club account",
-	task: "Get the current question (requires login)",
-	submit: "Submit a flag (requires login)",
-	leaderboard: "Display the CTF leaderboard",
 	whoami: "Display current user information",
-	clear: "Clear the terminal screen",
-	banner: "Display the CTF banner",
-	exit: "Logout from the current session",
-	hint: "Get a hint for the current task (There is 10m penalty!)",
+	task: "Get the current question (requires login)",
+	hint: "Get a hint for the current task (There is a 10m penalty!)",
+	submit: "Submit a flag (requires login)",
 	progress: "Your current progress",
+	leaderboard: "Display the CTF leaderboard",
+	banner: "Display the CTF banner",
+	clear: "Clear the terminal screen",
+	exit: "Logout from the current session",
 };
 const banner = `<span style="color: #1e1e1e;">CC{H1DD3N_1N_9LA1N_51GH7}</span>`;
 
@@ -440,8 +440,8 @@ async function showLeaderboard() {
 			data.data.forEach((user) => {
 				const time = user.timeTakenFormatted
 					? `${String(user.timeTakenFormatted.hours).padStart(2, "0")}:${String(
-							user.timeTakenFormatted.minutes
-					  ).padStart(2, "0")}:${String(user.timeTakenFormatted.seconds).padStart(2, "0")}`
+						user.timeTakenFormatted.minutes
+					).padStart(2, "0")}:${String(user.timeTakenFormatted.seconds).padStart(2, "0")}`
 					: "N/A";
 
 				tbody += `
@@ -557,6 +557,10 @@ async function handleCommand(cmd) {
 			}
 			break;
 		case "":
+			break;
+		case "about":
+			addOutput("<b>BitBlitz OS v1.729</b>", "info");
+			addOutput("Credits: Claude, ChatGPT, Alan Saji, Swassy, <a href='https://github.com/aswan-a' target='_blank'>Aswan</a> and <a href='https://github.com/dcdunkan' target='_blank'>Dunks</a>!");
 			break;
 		default:
 			addOutput(`<span class="error">Command not found: ${command}</span>`, "error");
