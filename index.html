@@ -4,7 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CTF Terminal</title>
+  <title>CTF Terminal | BitBlitzOS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Recursive:wght,MONO@300..800,1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <style>
     * {
       margin: 0;
@@ -14,10 +18,11 @@
 
     body {
       background: #1e1e1e;
-      font-family: 'Courier New', monospace;
       color: #d4d4d4;
       height: 100vh;
       overflow: hidden;
+      font-family: 'Recursive', monospace;
+      font-size: 16px;
     }
 
     .terminal-container {
@@ -37,13 +42,18 @@
       overflow-y: auto;
     }
 
+    ::selection {
+      color: black;
+      background-color: white;
+    }
+
     .terminal-output {
       margin-bottom: 18px;
     }
 
     .output-line {
       margin: 6px 0;
-      line-height: 1.5;
+      line-height: 1.25;
       white-space: pre-wrap;
     }
 
@@ -106,8 +116,8 @@
       background: transparent;
       border: none;
       color: #d4d4d4;
-      font-family: 'Courier New', monospace;
-      font-size: 15px;
+      font-family: 'Recursive', monospace;
+      font-size: 16px;
       outline: none;
       caret-color: #dcdcaa;
     }
@@ -171,7 +181,7 @@
       <div class="input-line">
         <span class="prompt" id="prompt-text">root@ctf:~$</span>
         <span class="hidden-flag">FLAG{h1dd3n_1n_html}</span>
-        <input type="text" id="terminal-input" autofocus />
+        <input type="text" id="terminal-input" autofocus autocomplete="off" autocapitalize="off" autocorrect="off" />
       </div>
     </div>
   </div>
@@ -247,6 +257,7 @@
           isLoggedIn = false;
           currentUser = null;
           localStorage.removeItem("token");
+          localStorage.removeItem("cmd-history");
           addOutput("<span class='error'>Something went wrong while authenticating :(</span>")
           addOutput('Type <span class="command">\'login\'</span> to authenticate\n', 'info');
         } finally {
@@ -255,6 +266,7 @@
         }
       } else {
         localStorage.removeItem("token");
+        localStorage.removeItem("cmd-history");
         addOutput('Type <span class="command">\'login\'</span> to begin\n', 'info');
       }
     })
@@ -579,6 +591,7 @@
         case 'exit':
           if (isLoggedIn) {
             localStorage.removeItem("token");
+            localStorage.removeItem("cmd-history");
             token = null;
             isLoggedIn = false;
             currentUser = null;
