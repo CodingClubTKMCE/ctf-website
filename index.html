@@ -115,9 +115,8 @@
     /* ASCII */
     .ascii-art {
       color: #4fc1ff;
-      font-size: 12px;
-      line-height: 1.3;
-      white-space: pre;
+      font-size: 8px;
+      line-height: 1.0;
     }
 
     /* TABLE (LEADERBOARD) */
@@ -184,19 +183,15 @@
     const input = document.getElementById('terminal-input');
     const promptText = document.getElementById('prompt-text');
 
-    // input.focus();
-    // document.addEventListener("click", (e) => {
-    //   input.focus();
-    // })
     document.addEventListener("click", (e) => {
       const selection = window.getSelection();
 
-      // If user is selecting text, do nothing
       if (selection && selection.toString().length > 0) return;
 
       // Don't steal focus if clicking on selectable text
-      if (e.target.closest(".terminal-output")) return;
+      // if (e.target.closest(".terminal-output")) return;
 
+      if (selection.type !== "Caret") return;
       input.focus();
     });
 
@@ -276,9 +271,7 @@
       exit: 'Logout from the current session'
     };
 
-    const banner = `
-<span style="color: #1e1e1e;">FLAG{c0l0r_bl3nd_m4st3r}</span>
-    `;
+    const banner = `<span style="color: #1e1e1e;">FLAG{c0l0r_bl3nd_m4st3r}</span>`;
 
     function addOutput(text, className = '') {
       const line = document.createElement('div');
